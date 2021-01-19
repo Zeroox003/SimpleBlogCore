@@ -103,22 +103,53 @@ namespace SimpleBlogCore.DataProvider
                     Id = Guid.NewGuid(),
                     Created = DateTime.UtcNow,
                     Name = "Programming",
+                },
+                new Tag {
+                    Id = Guid.NewGuid(),
+                    Created = DateTime.UtcNow,
+                    Name = "C#",
                 }
             };
         }
 
         private static List<Post> GetPosts(ICollection<Tag> tags)
         {
-            return new List<Post> {
-                new Post {
+            return Enumerable.Range(1, 20).Select(GetPost).ToList();
+
+            Post GetPost(int idx) {
+                return new Post {
                     Id = Guid.NewGuid(),
                     Created = DateTime.UtcNow,
-                    Title = "Article about programming",
-                    Body = "Some text...",
+                    Title = "Article about programming " + idx,
+                    Content = @"Lorem ipsum Nisi enim est proident est magna occaecat dolore proident eu ex sunt
+                        consectetur consectetur dolore enim nisi exercitation adipisicing magna culpa commodo deserunt ut do Ut occaecat.
+                        Lorem ipsum Veniam consequat quis aliquip dolore minim ex labore dolor Excepteur Duis velit in officia Excepteur
+                        officia officia officia adipisicing magna eu ex sunt.
+
+                        Duis ex ad cupidatat tempor Excepteur cillum cupidatat fugiat nostrud cupidatat dolor sunt sint sit nisi est
+                        eu exercitation incididunt adipisicing veniam velit id fugiat enim mollit amet anim veniam dolor dolor irure 
+                        velit commodo cillum sit nulla ullamco magna amet magna cupidatat qui labore cillum sit in tempor veniam consequat
+                        non laborum adipisicing aliqua ea nisi sint ut quis proident ullamco ut dolore culpa occaecat ut laboris in sit
+                        minim cupidatat ut dolor voluptate enim veniam consequat occaecat fugiat in adipisicing in amet Ut nulla nisi 
+                        non ut enim aliqua laborum mollit quis nostrud sed sed.
+
+                        Lorem ipsum Nisi enim est proident est magna occaecat dolore proident eu ex sunt consectetur consectetur dolore 
+                        enim nisi exercitation adipisicing magna culpa commodo deserunt ut do Ut occaecat. Lorem ipsum Veniam consequat 
+                        quis aliquip dolore minim ex labore dolor Excepteur Duis velit in officia Excepteur officia officia officia cillum
+                        ut elit in fugiat incididunt ea ad Ut ut ea ea dolor ex dolor eu magna voluptate irure consectetur.
+
+                        Placeat quam fugit qui quia.Non quasi tempore qui illo.Dolor magni ducimus doloribus rerum dolorem. Cum iste et 
+                        commodi doloremque.At veniam aperiam eum voluptates maiores iure facere. Cupiditate vero similique ut sed aut.
+                        Est sint laboriosam quia totam fugit. Necessitatibus sed ut autem eveniet mollitia. Temporibus ducimus officiis
+                        aut est quaerat fuga est ut aut.",
+                    PreviewContent = @"Lorem ipsum Nisi enim est proident est magna occaecat dolore proident eu ex sunt
+                        consectetur consectetur dolore enim nisi exercitation adipisicing magna culpa commodo deserunt ut do Ut occaecat.
+                        Lorem ipsum Veniam consequat quis aliquip dolore minim ex labore dolor Excepteur Duis velit in officia Excepteur
+                        officia officia officia adipisicing magna eu ex sunt.",
                     IsPublished = true,
                     Tags = tags
-                }
-            };
+                };
+            } 
         }
 
         private static List<Comment> GetComments(Post post, (User Admin, User User) users)

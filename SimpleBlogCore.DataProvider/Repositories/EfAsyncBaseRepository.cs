@@ -3,13 +3,16 @@ using SimpleBlogCore.Domain.Entities;
 using SimpleBlogCore.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SimpleBlogCore.DataProvider.Repositories
 {
     public class EfAsyncBaseRepository<T> : IAsyncRepository<T> where T : BaseEntity, new()
     {
-        private readonly SimpleBlogDbContext context;
+        protected readonly SimpleBlogDbContext context;
+
+        protected IQueryable<T> QueryAll => context.Set<T>();
 
         public EfAsyncBaseRepository(SimpleBlogDbContext context)
         {

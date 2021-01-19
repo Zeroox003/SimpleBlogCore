@@ -1,8 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<PostPreviewViewModel>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Latest posts";
+}
+<div class="row">
+    <div id="main" class="s-content__main large-8 column">
+        @if (Model.Any())
+        {
+            foreach (var post in Model)
+            {
+                <partial name="_PostPartial" model="post" />
+            }
+        }
+        else
+        {
+            <p>
+                Posts not found
+                <img id="sad-face" src="https://emojipedia-us.s3.amazonaws.com/thumbs/72/google/133/disappointed-face_1f61e.png" alt="😞" title="Sad Face" width="72" height="72">
+            </p>
+        }
+    </div>
 </div>

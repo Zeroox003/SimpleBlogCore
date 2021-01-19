@@ -11,10 +11,9 @@ namespace SimpleBlogCore.Domain.Entities
     {
         public string Title { get; set; }
 
-        /// <summary>
-        /// The complete post content
-        /// </summary>
-        public string Body { get; set; }
+        public string Content { get; set; }
+
+        public string PreviewContent { get; set; }
 
         /// <summary>
         /// Flag to represent whether the article is visible or not
