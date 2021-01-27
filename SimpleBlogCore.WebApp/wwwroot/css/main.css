@@ -92,7 +92,7 @@ html, body {
 body {
     background: #f5f5f5;
     font-family: "Merriweather", serif;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: normal;
     line-height: 2;
@@ -867,6 +867,12 @@ label>input[type="radio"] {
     color: #8c8c8c !important;
 }
 
+.validation-summary-errors,
+.field-validation-error {
+    font-size: 13px;
+    color: #d20004;
+}
+
 /* ------------------------------------------------------------------- 
  * ## change autocomplete styles in chrome
  * ------------------------------------------------------------------- */
@@ -1472,7 +1478,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 .s-header__nav {
     list-style: none;
     min-height: 6rem;
-    width: auto;
+    width: 100%;
     margin-left: 20px;
     position: relative;
 }
@@ -1515,6 +1521,19 @@ button::-moz-focus-inner, input::-moz-focus-inner {
     float: left;
 }
 
+.s-header__nav li#user-avatar {
+    cursor: pointer;
+}
+
+.s-header__nav > li.right {
+    float: right;
+}
+
+li#user-avatar img {
+    height: 36px;
+    width: 36px;
+}
+
 .s-header__nav li a {
     display: block;
     padding: 0 1.4rem;
@@ -1526,7 +1545,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 .s-header__nav li a:hover, .s-header__nav li a:focus {
-    color: #000000;
+    color: #84be5b;
 }
 
 .s-header__nav li a:active {
@@ -1543,39 +1562,47 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 
 /* sub menu */
 .s-header__nav ul {
+    display: none;
     min-width: 100%;
     margin: 0;
-    padding: 1.2rem 0;
+    padding: 0;
     background: #F4F3F3;
     border: 1px solid #EAE8E8;
     border-top: none;
     border-radius: 0 0 3px 3px;
-    opacity: 0;
-    visibility: hidden;
-    -webkit-transition: all .25s ease .1s;
-    transition: all .25s ease .1s;
     position: absolute;
     top: calc(100% + 2px);
     left: 0px;
 }
 
+.s-header__nav li#user-avatar > ul {
+    left: unset;
+    right: 0px;
+    min-width: 200px;
+}
+
 .s-header__nav ul li {
     padding: 0;
     display: block;
-    text-align: left;
+    text-align: center;
+    border-bottom: 1px dotted #d6d9dc;
     -webkit-transition: height .25s ease .1s;
     transition: height .25s ease .1s;
-    height: 0;
-    overflow: hidden;
+    height: 4rem;
+    overflow: visible;
+}
+
+.s-header__nav ul li:last-child {
+    border-bottom: none;
 }
 
 .s-header__nav ul li a {
     padding: 0 2rem;
     margin: 0;
     white-space: nowrap;
-    font-size: 13px;
+    font-size: 14px;
     font-family: "Open Sans", sans-serif;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 4rem;
     text-transform: none;
     letter-spacing: 0;
@@ -1585,11 +1612,6 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 .s-header__nav li:hover>ul {
     opacity: 1;
     visibility: visible;
-}
-
-.s-header__nav li:hover>ul li {
-    height: 4rem;
-    overflow: visible;
 }
 
 /* ------------------------------------------------------------------- 
@@ -1734,15 +1756,16 @@ button::-moz-focus-inner, input::-moz-focus-inner {
         float: none;
         display: block;
         height: auto;
+        width: 100%;
         padding-top: 0;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
+    .s-header__nav > li#user-avatar > a {
+        line-height: 0;
+        padding: 1rem 0;
+    }
     .s-header__nav>li:first-child {
         border-top: 2px solid rgba(0, 0, 0, 0.1);
-    }
-    .s-header__nav li.has-children>a::after {
-        border-bottom: 1px solid #000000;
-        border-right: 1px solid #000000;
     }
     .s-header__nav li.has-children>a.sub-menu-is-open::after {
         -webkit-transform: rotate(225deg);
@@ -1760,7 +1783,6 @@ button::-moz-focus-inner, input::-moz-focus-inner {
         background-color: transparent;
         border: none;
         border-radius: 0;
-        color: #84be5b;
     }
     .s-header__nav ul {
         opacity: 1;
@@ -1817,13 +1839,13 @@ button::-moz-focus-inner, input::-moz-focus-inner {
  * ## main navigation on large screens
  * ------------------------------------------------------------------- */
 @media only screen and (min-width:801px) {
+    .s-header__nav li#user-avatar > a::after {
+        content: none;
+    }
     .s-header__nav li.has-children:hover>a::after, 
     .s-header__nav li.has-children:focus>a::after {
         -webkit-transform: rotate(225deg);
         transform: rotate(225deg);
-    }
-    .s-header__nav ul {
-        display: block !important;
     }
 }
 
@@ -2293,7 +2315,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 .entry h2 a:hover, .entry h2 a:focus {
-    color: #000000;
+    color: #84be5b;
 }
 
 .entry__header {

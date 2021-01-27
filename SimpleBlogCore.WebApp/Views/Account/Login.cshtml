@@ -1,0 +1,50 @@
+﻿@model LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div id="main" class="s-content__main large-8 column">
+
+        <h2 style="text-align: center;">Login</h2>
+
+        <div>
+
+            <form asp-action="Login" asp-controller="Account" asp-antiforgery="true">
+
+                <div asp-validation-summary="ModelOnly">
+                    Errors:
+                </div>
+
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <div>
+                    <label asp-for="Email"></label>
+                    <span asp-validation-for="Email"></span>
+                    <input type="email" asp-for="Email" class="h-full-width" />
+                </div>
+
+                <div>
+                    <label asp-for="Password"></label>
+                    <span asp-validation-for="Password"></span>
+                    <input type="password" asp-for="Password" class="h-full-width" />
+                </div>
+
+                <div>
+                    <label asp-for="RememberMe" class="h-add-bottom">
+                        <input type="checkbox" asp-for="RememberMe" />
+                        <span class="label-text">Remember me?</span>
+                    </label>
+                </div>
+
+                <div>
+                    <input class="btn--primary h-full-width" type="submit" value="Log in" />
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

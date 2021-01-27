@@ -51,7 +51,6 @@
     const ssMobileMenu = function() {
 
         const $toggleButton = $('.header-menu-toggle');
-        const $headerContent = $('.header-content');
         const $siteBody = $("body");
 
         $toggleButton.on('click', function(event){
@@ -74,28 +73,28 @@
             }
         });
 
-        // open (or close) submenu items in mobile view menu. 
-        // close all the other open submenu items.
         $('.s-header__nav .has-children').children('a').on('click', function (e) {
             e.preventDefault();
-
-            // at 800px and below
-            if (window.matchMedia('(max-width: 800px)').matches) {
-
-                $(this).toggleClass('sub-menu-is-open')
-                    .next('ul')
-                    .slideToggle(200)
-                    .end()
-                    .parent('.has-children')
-                    .siblings('.has-children')
-                    .children('a')
-                    .removeClass('sub-menu-is-open')
-                    .next('ul')
-                    .slideUp(200);
-
-            }
+            e.stopPropagation();
+            $(this).toggleClass('sub-menu-is-open')
+                .next('ul')
+                .slideToggle(100)
+                .end()
+                .parent('.has-children')
+                .siblings('.has-children')
+                .children('a')
+                .removeClass('sub-menu-is-open')
+                .next('ul')
+                .slideUp(100);
         });
 
+        $('body').on('click', function (e) {
+            $('.s-header__nav .has-children')
+                .children('a')
+                .removeClass('sub-menu-is-open')
+                .next('ul')
+                .slideUp(100);
+        })
     };
 
 
