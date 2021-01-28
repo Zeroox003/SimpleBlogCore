@@ -16,12 +16,7 @@ namespace SimpleBlogCore.DataProvider.Repositories
 
         public async Task<IReadOnlyList<Post>> GetAll(bool onlyPublished = true)
         {
-            if (onlyPublished)
-            {
-                return await QueryAll.Where(p => p.IsPublished).OrderByDescending(p => p.Created).ToListAsync();
-            }
-
-            return await QueryAll.OrderByDescending(p => p.Created).ToListAsync();
+            return await QueryAll.Where(p => !onlyPublished || p.IsPublished).OrderByDescending(p => p.Created).ToListAsync();
         }
     }
 }

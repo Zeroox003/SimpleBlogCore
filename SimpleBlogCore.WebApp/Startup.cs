@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimpleBlogCore.DataProvider;
+using SimpleBlogCore.DataProvider.Identity;
 using SimpleBlogCore.DataProvider.Repositories;
 using SimpleBlogCore.Domain.Entities;
 using SimpleBlogCore.Domain.Interfaces;
@@ -32,12 +33,15 @@ namespace SimpleBlogCore.WebApp
                 options.ViewLocationExpanders.Add(new ExtendedViewEngine());
             });
 
-            services.AddDbContext<SimpleBlogDbContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<SimpleBlogDbContext>(options => {
+                options.UseLazyLoadingProxies();
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             services.AddIdentity<User, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<SimpleBlogDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddScoped<IUserClaimsPrincipalFactory<User>, AppClaimsPrincipalFactory>();
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfAsyncBaseRepository<>));
             services.AddScoped(typeof(IPostAsyncRepository), typeof(PostAsyncRepository));

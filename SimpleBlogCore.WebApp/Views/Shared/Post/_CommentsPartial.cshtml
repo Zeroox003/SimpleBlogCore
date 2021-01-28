@@ -1,0 +1,132 @@
+﻿@model IEnumerable<CommentViewModel>
+
+@functions {
+    private async Task OutputTreeComments(IEnumerable<CommentViewModel> comments, int depth = 1)
+    {
+        foreach (var comment in comments)
+        {
+            <li class="comment depth-@depth">
+
+                <div class="comment__avatar">
+                    <img class="avatar" src="~/images/placeholder.png" alt="" width="50" height="50">
+                </div>
+
+                <div class="comment__content">
+
+                    <div class="comment__info">
+                        <cite class="comment__author">
+                            <a asp-action="UserProfile" asp-controller="Account" asp-route-id="@comment.UserId">@comment.User.UserName</a>
+                        </cite>
+                        @if (comment.RepliedToComment != null)
+                        {
+                            <i class="fa fa-share" style="margin: 0 5px; font-size: 13px;"></i>
+                            <cite class="reply-to">
+                                <a asp-action="UserProfile" asp-controller="Account" asp-route-id="@comment.RepliedToComment.UserId">@comment.RepliedToComment.User.UserName</a>
+                            </cite>
+                        }
+
+                        <div class="comment__meta">
+                            <time class="comment__time">@comment.Created.Value.ToString("dd MMM yyyy @ HH:mm", System.Globalization.CultureInfo.InvariantCulture)</time>
+                        </div>
+                    </div>
+
+                    <div class="comment__text">
+                        @if (comment.IsDeleted)
+                        {
+                            <p style="color: #919191;">
+                                @Html.Raw("Comment was deleted")
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                @comment.Content
+                            </p>
+                        }
+                    </div>
+
+                </div>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="comment-controls">
+
+                        <a class="comment-action hidden">cancel</a>
+                        <a class="comment-action">reply</a>
+                        @if ((comment.User.Id == User.Identity.GetUserId() || User.IsInRole("Admin")) && !comment.IsDeleted)
+                        {
+                            <a class="comment-action">edit</a>
+                            <a class="comment-action">delete</a>
+                        }
+                    </div>
+                }
+
+                @{
+                    var children = Model.Where(x => x.RepliedToComment != null && x.RepliedToCommentId == comment.Id);
+
+                    if (children.Count() > 0)
+                    {
+                        <ul class="children">
+                            @{ await OutputTreeComments(children, depth + 1); }
+                        </ul>
+                    }
+                }
+
+            </li> <!-- end comment level 1 -->
+        }
+    }
+}
+
+@if (Model.Any())
+{
+    int commentsCount = Model.Count();
+    if (commentsCount == 1)
+    {
+        <h3>1 comment</h3>
+    }
+    else
+    {
+        <h3>@commentsCount comments</h3>
+    }
+
+    <ol class="commentlist">
+        @{ await OutputTreeComments(Model.Where(c => c.RepliedToCommentId == null)); }
+    </ol>
+}
+else
+{
+    <h3 style="text-align: center; margin-bottom: 35px;">There are no comments</h3>
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="comment-respond">
+
+        <!-- START respond -->
+        <div id="respond">
+
+            <h3 class="h4">Leave your comment</h3>
+
+            <form name="contactForm" id="contactForm" method="post" action="" autocomplete="off">
+                <fieldset>
+
+                    <div class="message form-field">
+                        <textarea name="cMessage" id="cMessage" class="h-full-width" rows="4" cols="50"></textarea>
+                    </div>
+
+                    <input name="submit" id="submit" class="btn btn--primary btn-wide" value="Send" type="submit">
+
+                </fieldset>
+            </form> <!-- end form -->
+
+        </div>
+        <!-- END respond-->
+
+    </div> <!-- end comment-respond -->
+}
+else
+{
+    <div class="comment-reply__alert">
+        <p>You must be <a asp-action="Login" asp-controller="Account">logged in</a> to leave a comment</p>
+    </div>
+}

@@ -16,9 +16,11 @@ namespace SimpleBlogCore.Domain.Entities
 
         public DateTime RegistrationDate { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
         public User()
-        { }
+        { 
+
+        }
     }
 }

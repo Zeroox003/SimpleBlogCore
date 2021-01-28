@@ -1,0 +1,76 @@
+﻿@model PostViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="row">
+
+    <div id="main" class="s-content__main large-8 column">
+
+        <article class="entry">
+
+            <header class="entry__header">
+
+                <h2 class="entry__title h1">
+                    <a href="single.html" title="">@Model.Title</a>
+                </h2>
+
+                <div class="entry__meta">
+                    <ul>
+                        <li>
+                            @if (Model.LastModified.HasValue)
+                            {
+                                <i>Last edited</i> @Model.LastModified.Value.ToShortDateString()
+                            }
+                            else
+                            {
+                                @Model.Created.Value.ToShortDateString()
+                            }
+                        </li>
+                    </ul>
+                </div>
+
+            </header> <!-- entry__header -->
+
+            <div class="entry__content">
+                @Html.Raw(Model.Content)
+            </div> <!-- entry__content -->
+
+            <p class="entry__tags">
+                <span>Tagged in:</span>
+
+                @{
+                    bool temp = false;
+                    foreach (var tag in Model.Tags)
+                    {
+                        if (temp)
+                        {
+                            <span class="meta-sep">&bull;</span>
+                        }
+                        else
+                        {
+                            temp = !temp;
+                        }
+
+                        <a asp-action="Tag" asp-controller="Home" title="All posts tagged in @tag.Name">@tag.Name</a>
+                    }
+                }
+            </p>
+
+        </article> <!-- end entry -->
+
+        <div class="comments-wrap">
+
+            <div id="comments">
+
+                <partial name="_CommentsPartial" model="Model.Comments" />
+
+            </div> <!-- end comments -->
+
+        </div> <!-- end comments-wrap -->
+
+    </div> <!-- end main -->
+
+</div> <!-- end row -->
