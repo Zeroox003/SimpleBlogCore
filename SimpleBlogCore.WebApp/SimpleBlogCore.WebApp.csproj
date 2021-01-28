@@ -20,8 +20,4 @@
     <ProjectReference Include="..\SimpleBlogCore.Domain\SimpleBlogCore.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Home\" />
-  </ItemGroup>
-
 </Project>
