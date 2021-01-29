@@ -20,4 +20,6 @@
     <ProjectReference Include="..\SimpleBlogCore.Domain\SimpleBlogCore.Domain.csproj" />
   </ItemGroup>
 
-</Project>
+  <ItemGroup>
+    <Folder Include="TagHelpers\" />
+  </ItemGroup></Project>

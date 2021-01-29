@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SimpleBlogCore.Domain.Entities;
 using SimpleBlogCore.Domain.Interfaces;
 using SimpleBlogCore.WebApp.Models.Account;
+using System;
 using System.Threading.Tasks;
 
 namespace JustBlog.Controllers
@@ -120,6 +121,55 @@ namespace JustBlog.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> UserProfile(Guid id)
+        {
+            var user = await userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(new UserViewModel(user));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UserProfile(UserViewModel userViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(userViewModel);
+            }
+
+            var user = await userManager.FindByIdAsync(userViewModel.Id.ToString());
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.UserName != userViewModel.UserName)
+            {
+                bool userNameIsFree = await userManager.FindByNameAsync(userViewModel.UserName) == null;
+                if (!userNameIsFree)
+                {
+                    ModelState.AddModelError("", "A user with the same Username already exists");
+                    return View(userViewModel);
+                }
+            }
+
+            userViewModel.UpdatePersonalData(user);
+            var result = await userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                await signInManager.RefreshSignInAsync(user);
+                return RedirectToAction("UserProfile", new { Id = user.Id });
+            }
+
+            ModelState.AddModelError("", "Something went wrong");
+            return View(userViewModel);
         }
     }
 }

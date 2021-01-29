@@ -51,13 +51,13 @@
 
                 <ul class="s-header__nav">
                     <li class="current">
-                        <a asp-action="Index">Home</a>
+                        <a asp-action="Index" asp-controller="Home">Home</a>
                     </li>
                     <li>
-                        <a asp-action="Contacts">Contacts</a>
+                        <a asp-action="Contacts" asp-controller="Home">Contacts</a>
                     </li>
                     <li>
-                        <a asp-action="Aboutme">About me</a>
+                        <a asp-action="Aboutme" asp-controller="Home">About me</a>
                     </li>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -72,7 +72,7 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a asp-controller="Account" asp-action="UserProfile">User profile</a>
+                                    <a asp-controller="Account" asp-action="UserProfile" asp-route-id="@User.Identity.GetUserId()">User profile</a>
                                 </li>
                                 <li>
                                     <a asp-controller="Account" asp-action="Logout">Logout</a>

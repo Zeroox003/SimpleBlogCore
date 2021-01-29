@@ -1,0 +1,82 @@
+﻿@model UserViewModel
+
+@{
+    ViewBag.Title = "User profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool isReadonly = !User.Identity.IsAuthenticated || Model.Id != User.Identity.GetUserId();
+}
+
+<div class="row">
+    <div id="main" class="s-content__main large-8 column">
+
+        <h2 style="text-align: center;">User profile</h2>
+
+        <div>
+
+            <form asp-action="UserProfile" asp-controller="Account" asp-antiforgery="true">
+
+                <div asp-validation-summary="ModelOnly">
+                    Errors:
+                </div>
+
+                <div>
+                    <label asp-for="Email"></label>
+                    <input type="email" asp-for="Email" class="h-full-width" is-readonly="true" />
+                </div>
+
+                <div>
+                    <label asp-for="UserName"></label>
+                    <span asp-validation-for="UserName"></span>
+                    <input type="text" asp-for="UserName" class="h-full-width" is-readonly="@isReadonly" />
+                </div>
+
+                <div>
+                    <label asp-for="FullName"></label>
+                    <span asp-validation-for="FullName"></span>
+                    <input type="text" asp-for="FullName" class="h-full-width" is-readonly="@isReadonly" />
+                </div>
+
+                <div>
+                    <label asp-for="Gender"></label>
+                    <span asp-validation-for="Gender"></span>
+                    <select asp-for="Gender" class="h-full-width" disabled="@(isReadonly ? "disabled" : null)">
+                        <option value=""></option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Another">Another</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label asp-for="Address"></label>
+                    <span asp-validation-for="Address"></span>
+                    <input type="text" asp-for="Address" class="h-full-width" is-readonly="@isReadonly" />
+                </div>
+
+                <div>
+                    <label asp-for="AboutMe"></label>
+                    <span asp-validation-for="AboutMe"></span>
+                    <textarea asp-for="AboutMe" class="h-full-width" is-readonly="@isReadonly"></textarea>
+                </div>
+
+                <div>
+                    <label asp-for="RegistrationDate"></label>
+                    <input type="text" 
+                           asp-for="RegistrationDate"
+                           class="h-full-width"
+                           is-readonly="true"
+                           value="@Model.RegistrationDate.ToString("dd MMMM yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture)" />
+                </div>
+
+                @if (!isReadonly)
+                {
+                    <div>
+                        <input class="btn--primary h-full-width" type="submit" value="Save" />
+                    </div>
+                }
+
+            </form>
+
+        </div>
+    </div>
+</div>
