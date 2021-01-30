@@ -1429,7 +1429,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
     min-height: 30rem;
     padding-top: 12rem;
     padding-bottom: 8rem;
-    border-bottom: 1px dashed #efefef;
+    border-bottom: 3px solid #e8e8e8;
     position: relative;
 }
 
@@ -1875,6 +1875,17 @@ li#user-avatar img {
 
 .s-content__main {
     padding-right: 4.6rem;
+}
+
+.s-content__main > h2:first-child {
+    padding-bottom: 1.5rem;
+    margin: 0 0 4.5rem;
+    border-bottom: 2px solid #e8e8e8;
+    font-family: 'opensans-semibold', sans-serif;
+    font-weight: 600;
+    text-shadow: 0 3px 5px rgb(0 0 0 / 30%);
+    font-size: 38px;
+    line-height: 40px;
 }
 
 .ss-single .s-content__main {
