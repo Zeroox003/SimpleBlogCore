@@ -50,13 +50,13 @@
             <div class="row">
 
                 <ul class="s-header__nav">
-                    <li class="current">
+                    <li is-active-route asp-controller="Home" asp-action="Index">
                         <a asp-action="Index" asp-controller="Home">Home</a>
                     </li>
-                    <li>
+                    <li is-active-route asp-action="Contacts" asp-controller="Home">
                         <a asp-action="Contacts" asp-controller="Home">Contacts</a>
                     </li>
-                    <li>
+                    <li is-active-route asp-action="Aboutme" asp-controller="Home">
                         <a asp-action="Aboutme" asp-controller="Home">About me</a>
                     </li>
                     @if (User.Identity.IsAuthenticated)
@@ -82,10 +82,10 @@
                     }
                     else
                     {
-                        <li class="right">
+                        <li is-active-route asp-controller="Account" asp-action="Register" class="right">
                             <a asp-controller="Account" asp-action="Register">Sign Up</a>
                         </li>
-                        <li class="right">
+                        <li is-active-route asp-controller="Account" asp-action="Login" class="right">
                             <a asp-controller="Account" asp-action="Login">Log in</a>
                         </li>
                     }
