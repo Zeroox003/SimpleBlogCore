@@ -13,6 +13,30 @@
 
         <div>
 
+            <div class="user-profile-image-wrap">
+
+                <img src="~/@Model.ProfilePicturePath">
+
+                @if (!isReadonly)
+                {
+                    <form id="form-upload-picture"
+                          asp-action="UploadProfilePicture"
+                          asp-controller="Account"
+                          enctype="multipart/form-data"
+                          asp-antiforgery="true">
+
+                        <input type="file" id="profileImage" name="profileImage" />
+
+                    </form>
+
+                    <label for="profileImage">
+                        <span class="profile-image-upload-icon">
+                            <i class="fa fa-upload"></i>
+                        </span>
+                    </label>
+                }
+            </div>
+
             <form asp-action="UserProfile" asp-controller="Account" asp-antiforgery="true">
 
                 <div asp-validation-summary="ModelOnly">
@@ -61,7 +85,7 @@
 
                 <div>
                     <label asp-for="RegistrationDate"></label>
-                    <input type="text" 
+                    <input type="text"
                            asp-for="RegistrationDate"
                            class="h-full-width"
                            is-readonly="true"
@@ -80,3 +104,11 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $('input[name="profileImage"]').change(function () {
+            $('#form-upload-picture').submit();
+        });
+    </script>
+}

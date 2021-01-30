@@ -1,10 +1,11 @@
 ﻿using SimpleBlogCore.Domain.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace SimpleBlogCore.WebApp.Models.Account
 {
-    public class RegisterViewModel
+	public class RegisterViewModel
     {
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -36,6 +37,7 @@ namespace SimpleBlogCore.WebApp.Models.Account
                 Email = Email,
                 UserName = UserName,
                 RegistrationDate = DateTime.UtcNow,
+                ProfilePicturePath = Path.Combine("images", "placeholder.png"),
                 EmailConfirmed = true,
                 LockoutEnabled = false
             };

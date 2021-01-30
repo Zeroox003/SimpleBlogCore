@@ -27,6 +27,8 @@ namespace SimpleBlogCore.WebApp.Models.Account
         [Display(Name = "Registration date")]
         public DateTime RegistrationDate { get; set; }
 
+        public string ProfilePicturePath { get; set; }
+
         public UserViewModel()
         {
 
@@ -41,6 +43,7 @@ namespace SimpleBlogCore.WebApp.Models.Account
             Address = user.Address;
             AboutMe = user.AboutMe;
             RegistrationDate = user.RegistrationDate;
+            ProfilePicturePath = user.ProfilePicturePath;
         }
 
         public void UpdatePersonalData(User user)

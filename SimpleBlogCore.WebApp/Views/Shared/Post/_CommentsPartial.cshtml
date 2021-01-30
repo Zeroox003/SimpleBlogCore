@@ -8,20 +8,20 @@
             <li class="comment depth-@depth">
 
                 <div class="comment__avatar">
-                    <img class="avatar" src="~/images/placeholder.png" alt="" width="50" height="50">
+                    <img class="avatar" src="~/@comment.User.ProfilePicturePath" alt="" width="50" height="50">
                 </div>
 
                 <div class="comment__content">
 
                     <div class="comment__info">
                         <cite class="comment__author">
-                            <a asp-action="UserProfile" asp-controller="Account" asp-route-id="@comment.UserId">@comment.User.UserName</a>
+                            <a asp-action="UserProfile" asp-controller="Account" asp-route-id="@comment.User.Id">@comment.User.UserName</a>
                         </cite>
                         @if (comment.RepliedToComment != null)
                         {
                             <i class="fa fa-share" style="margin: 0 5px; font-size: 13px;"></i>
                             <cite class="reply-to">
-                                <a asp-action="UserProfile" asp-controller="Account" asp-route-id="@comment.RepliedToComment.UserId">@comment.RepliedToComment.User.UserName</a>
+                                <a asp-action="UserProfile" asp-controller="Account" asp-route-id="@comment.RepliedToComment.User.Id">@comment.RepliedToComment.User.UserName</a>
                             </cite>
                         }
 

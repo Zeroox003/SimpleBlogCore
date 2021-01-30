@@ -11,5 +11,11 @@ namespace SimpleBlogCore.DataProvider.Extensions
             var userId = (identity as ClaimsIdentity).FindFirst("Id");
             return (userId != null) ? Guid.Parse(userId.Value) : Guid.Empty;
         }
+
+        public static string GetProfilePicturePath(this IIdentity identity)
+        {
+            var profilePicturePath = (identity as ClaimsIdentity).FindFirst("ProfilePicturePath");
+            return profilePicturePath != null ? profilePicturePath.Value : String.Empty;
+        }
     }
 }

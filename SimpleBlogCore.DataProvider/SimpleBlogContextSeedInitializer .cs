@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SimpleBlogCore.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SimpleBlogCore.DataProvider
@@ -47,6 +48,7 @@ namespace SimpleBlogCore.DataProvider
         private static (User Admin, User User) GetUsers()
         {
             var hasher = new PasswordHasher<User>();
+            var imagePlaceholder = Path.Combine("images", "placeholder.png");
             return (
                 new User {
                     Id = Guid.NewGuid(),
@@ -56,6 +58,7 @@ namespace SimpleBlogCore.DataProvider
                     Email = "admin@mail.ru",
                     NormalizedEmail = "admin@mail.ru",
                     PasswordHash = hasher.HashPassword(null, "admin123"),
+                    ProfilePicturePath = imagePlaceholder,
                     SecurityStamp = string.Empty,
                     EmailConfirmed = true
                 },
@@ -67,6 +70,7 @@ namespace SimpleBlogCore.DataProvider
                     Email = "user@mail.ru",
                     NormalizedEmail = "user@mail.ru",
                     PasswordHash = hasher.HashPassword(null, "user123"),
+                    ProfilePicturePath = imagePlaceholder,
                     SecurityStamp = string.Empty,
                     EmailConfirmed = true
                 });

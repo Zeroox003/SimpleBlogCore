@@ -18,6 +18,8 @@ namespace SimpleBlogCore.Domain.Entities
 
         public virtual ICollection<Comment> Comments { get; set; }
 
+        public string ProfilePicturePath { get; set; }
+
         public User()
         { 
 

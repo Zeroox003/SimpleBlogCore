@@ -18,8 +18,4 @@
   <ItemGroup>
     <ProjectReference Include="..\SimpleBlogCore.DataProvider\SimpleBlogCore.DataProvider.csproj" />
     <ProjectReference Include="..\SimpleBlogCore.Domain\SimpleBlogCore.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TagHelpers\" />
   </ItemGroup></Project>

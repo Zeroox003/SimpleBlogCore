@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SimpleBlogCore.Domain.Entities;
-using SimpleBlogCore.Domain.Interfaces;
 using SimpleBlogCore.WebApp.Models.Account;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace JustBlog.Controllers
@@ -12,14 +14,16 @@ namespace JustBlog.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly IWebHostEnvironment _env;
+
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
 
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment env)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            _env = env;
         }
 
         [AllowAnonymous]
@@ -107,8 +111,18 @@ namespace JustBlog.Controllers
 
             var userModel = model.GetModel();
             var resultUserCreating = await userManager.CreateAsync(userModel, model.Password);
+            if (!resultUserCreating.Succeeded)
+            {
+                foreach(var error in resultUserCreating.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+
             var resultAddingToRole = await userManager.AddToRoleAsync(userModel, role: "User");
-            if (resultUserCreating.Succeeded && resultAddingToRole.Succeeded)
+            if (resultAddingToRole.Succeeded)
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -170,6 +184,43 @@ namespace JustBlog.Controllers
 
             ModelState.AddModelError("", "Something went wrong");
             return View(userViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UploadProfilePicture(IFormFile profileImage)
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            string fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(profileImage.FileName);
+            string relativePath = Path.Combine("Users", user.Id.ToString(), fileName);
+            string fullPath = Path.Combine(_env.WebRootPath, relativePath);
+            if (!Directory.Exists(Path.GetDirectoryName(fullPath)))
+			{
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+			}
+
+            using (var fileStream = new FileStream(fullPath, FileMode.Create))
+            {
+                await profileImage.CopyToAsync(fileStream);
+                user.ProfilePicturePath = relativePath;
+            }
+
+            var result = await userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                await signInManager.RefreshSignInAsync(user);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong");
+            }
+
+            return RedirectToAction("UserProfile", new { Id = user.Id });
         }
     }
 }

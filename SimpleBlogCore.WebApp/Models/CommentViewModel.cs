@@ -1,4 +1,5 @@
 ﻿using SimpleBlogCore.Domain.Entities;
+using SimpleBlogCore.WebApp.Models.Account;
 using System;
 
 namespace SimpleBlogCore.WebApp.Models
@@ -13,9 +14,7 @@ namespace SimpleBlogCore.WebApp.Models
 
         public bool IsDeleted { get; set; }
 
-        public Guid? UserId { get; set; }
-
-        public User User { get; set; }
+        public UserViewModel User { get; set; }
 
         public Guid PostId { get; set; }
 
@@ -34,8 +33,7 @@ namespace SimpleBlogCore.WebApp.Models
             Created = comment.Created;
             Content = comment.Content;
             IsDeleted = comment.IsDeleted;
-            UserId = comment.UserId;
-            User = comment.User;
+            User = new UserViewModel(comment.User);
             PostId = comment.PostId;
             RepliedToCommentId = comment.RepliedToCommentId;
             if (comment.RepliedToComment != null)
@@ -51,7 +49,7 @@ namespace SimpleBlogCore.WebApp.Models
                 Created = Created ?? DateTime.UtcNow,
                 Content = Content,
                 IsDeleted = IsDeleted,
-                UserId = UserId,
+                UserId = User.Id,
                 PostId = PostId,
                 RepliedToCommentId = RepliedToCommentId
             };

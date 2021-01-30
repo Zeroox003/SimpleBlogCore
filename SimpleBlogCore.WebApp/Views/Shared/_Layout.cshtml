@@ -68,7 +68,7 @@
 
                         <li id="user-avatar" class="has-children right">
                             <a>
-                                <img src="~/images/placeholder.png">
+                                <img src="~/@User.Identity.GetProfilePicturePath()">
                             </a>
                             <ul>
                                 <li>
@@ -226,7 +226,7 @@
     ================================================== -->
     <script src="~/js/jquery-3.2.1.min.js"></script>
     <script src="~/js/main.js"></script>
-
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

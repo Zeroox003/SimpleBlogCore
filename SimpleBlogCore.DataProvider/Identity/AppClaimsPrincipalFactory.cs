@@ -25,6 +25,7 @@ namespace SimpleBlogCore.DataProvider.Identity
             {
                 (principal.Identity as ClaimsIdentity).AddClaims(new[] {
                     new Claim("Id", user.Id.ToString()),
+                    new Claim("ProfilePicturePath", user.ProfilePicturePath),
                 });
             }
 

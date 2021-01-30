@@ -42,6 +42,7 @@
  *    ## entry post nav
  *    ## post-list-nav
  *    ## comments
+ *    ## user profile image
  *
  * =================================================================== */
 
@@ -2612,6 +2613,68 @@ li#user-avatar img {
     margin-bottom: 0;
     padding: 3px 15px;
 }
+
+/* -------------------------------------------------------------------
+ * ## user profile
+ * ------------------------------------------------------------------- */
+.user-profile-image-wrap {
+    position: relative;
+    overflow: hidden;
+    margin: 5rem auto;
+    height: 150px;
+    width: 150px;
+}
+
+.user-profile-image-wrap:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    display: block;
+    background: rgba(239,239,242,.15);
+    -webkit-transition: opacity .2s ease;
+    transition: opacity .2s ease;
+    opacity: 0;
+}
+
+.user-profile-image-wrap img {
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+}
+
+.user-profile-image-wrap form {
+    display: none;
+}
+
+.profile-image-upload-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    margin-left: -20px;
+    margin-top: -20px;
+    width: 40px;
+    height: 40px;
+    display: block;
+    line-height: 40px;
+    text-align: center;
+    background: #111;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transition: transform .2s ease,opacity .2s ease;
+}
+
+.user-profile-image-wrap:hover .profile-image-upload-icon,
+.user-profile-image-wrap:hover:after {
+    opacity: 1;
+}
+
 
 /* ------------------------------------------------------------------- 
  * responsive:

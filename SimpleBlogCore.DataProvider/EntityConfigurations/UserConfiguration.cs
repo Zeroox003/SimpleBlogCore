@@ -12,6 +12,7 @@ namespace SimpleBlogCore.DataProvider.EntityConfigurations
             builder.Property(u => u.FullName).HasMaxLength(100);
             builder.Property(u => u.Address).HasMaxLength(100);
             builder.Property(u => u.Gender).HasMaxLength(50);
+            builder.Property(u => u.ProfilePicturePath).IsRequired();
 
             builder.HasMany(u => u.Comments)
                 .WithOne(c => c.User)
