@@ -22,10 +22,10 @@ namespace SimpleBlogCore.WebApp.Controllers
             this.repository = repository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            var posts = (await repository.GetAll()).Select(post => new PostPreviewViewModel(post));
-            return View(posts);
+            var pagedListViewModel = await PostsPagedListViewModel.BuildDefaultModel(repository, page ?? 1);
+            return View(pagedListViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

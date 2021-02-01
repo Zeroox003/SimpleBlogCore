@@ -118,7 +118,7 @@ namespace SimpleBlogCore.DataProvider
 
         private static List<Post> GetPosts(ICollection<Tag> tags)
         {
-            return Enumerable.Range(1, 20).Select(GetPost).ToList();
+            return Enumerable.Range(1, 30).Select(GetPost).ToList();
 
             Post GetPost(int idx) {
                 return new Post {
