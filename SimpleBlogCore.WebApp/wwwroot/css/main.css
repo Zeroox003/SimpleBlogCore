@@ -1999,7 +1999,7 @@ li#user-avatar img {
 }
 
 .s-content__sidebar .tagcloud a {
-    background-color: #efefef;
+    background-color: #E9EBEE;
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
     font-size: 1.1rem;
@@ -2012,7 +2012,7 @@ li#user-avatar img {
     border-radius: 3px;
     text-decoration: none;
     letter-spacing: .2rem;
-    color: #000000;
+    color: #778888;
     -webkit-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
 }

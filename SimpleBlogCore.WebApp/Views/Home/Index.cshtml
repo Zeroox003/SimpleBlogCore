@@ -3,12 +3,12 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Latest posts";
+    ViewData["Title"] = ViewBag.Title;
 }
 <div class="row">
     <div id="main" class="s-content__main large-8 column">
 
-        <h2>Latest posts</h2>
+        <h2>@ViewBag.Title</h2>
 
         @if (Model.Posts.Any())
         {
@@ -16,7 +16,6 @@
             {
                 <partial name="_PostPreviewPartial" model="post" />
             }
-
         }
         else
         {
@@ -27,6 +26,7 @@
         }
     </div>
 
-    @Html.PagedListPager(Model.Posts, page => Url.Action("Index", "Home", new { page = page }), new CustomPagedListRenderOptions())
-
+    @await Component.InvokeAsync("Sidebar")
 </div>
+
+@Html.PagedListPager(Model.Posts, page => Url.Action("Index", "Home", new { page = page }), new CustomPagedListRenderOptions())

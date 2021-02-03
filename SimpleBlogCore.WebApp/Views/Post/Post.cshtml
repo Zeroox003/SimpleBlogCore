@@ -54,7 +54,7 @@
                             temp = !temp;
                         }
 
-                        <a asp-action="Tag" asp-controller="Home" title="All posts tagged in @tag.Name">@tag.Name</a>
+                        <a asp-action="GetByTag" asp-controller="Home" asp-route-tagName="@tag.Name" title="All posts tagged in @tag.Name">@tag.Name</a>
                     }
                 }
             </p>
