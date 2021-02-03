@@ -32,6 +32,13 @@ namespace SimpleBlogCore.WebApp.Controllers
             return View("Index", pagedListViewModel);
         }
 
+        public async Task<IActionResult> GetBySearch(string search, int? page)
+        {
+            var pagedListViewModel = await PostsPagedListViewModel.BuildModelForSearch(repository, page ?? 1, search);
+            ViewBag.Title = $"Latest posts with the searched word «{search}»";
+            return View("Index", pagedListViewModel);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

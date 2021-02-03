@@ -4,8 +4,11 @@
 
     <div class="widget widget--search">
         <h3 class="h6">Search</h3>
-        <form action="#">
-            <input type="text" value="Search here..." onblur="if(this.value == '') { this.value = 'Search here...'; }" onfocus="if (this.value == 'Search here...') { this.value = ''; }" class="text-search">
+        <form asp-action="GetBySearch" asp-controller="Home" method="get">
+            <input type="text"
+                   name="search" 
+                   placeholder="Search here..."
+                   class="text-search">
             <input type="submit" value="" class="submit-search">
         </form>
     </div>

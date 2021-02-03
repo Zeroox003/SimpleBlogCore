@@ -28,7 +28,7 @@ namespace SimpleBlogCore.DataProvider.Repositories
 		{
             return QueryAll
                 .Where(p => p.IsPublished)
-                .Where(p => p.Title.ToLower().Equals(search.ToLower()))
+                .Where(p => p.Title.ToLower().Contains(search.ToLower()))
                 .OrderByDescending(p => p.Created);
         }
 
