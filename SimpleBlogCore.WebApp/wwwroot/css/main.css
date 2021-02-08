@@ -2490,6 +2490,11 @@ li#user-avatar img {
     margin-top: 0;
 }
 
+.comments-wrap h3.h5 {
+    margin: 1rem 0;
+    font-weight: normal;
+}
+
 .comments-wrap h3 span {
     display: block;
     font-weight: 400;
@@ -2581,10 +2586,6 @@ li#user-avatar img {
     font-family: 'opensans-bold', sans-serif;
     margin-right: 2rem;
     cursor: pointer;
-}
-
-.comment-action.hidden {
-    display: none;
 }
 
 .comment ul.children {

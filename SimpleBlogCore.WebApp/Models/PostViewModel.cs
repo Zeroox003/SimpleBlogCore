@@ -42,7 +42,7 @@ namespace SimpleBlogCore.WebApp.Models
                 Tags.Add(new TagViewModel(tag));
             }
 
-            foreach(var comment in post.Comments)
+            foreach(var comment in post.Comments.OrderBy(c => c.Created))
             {
                 Comments.Add(new CommentViewModel(comment));
             }

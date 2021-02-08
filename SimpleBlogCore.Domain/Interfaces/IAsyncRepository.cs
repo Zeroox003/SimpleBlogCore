@@ -9,7 +9,9 @@ namespace SimpleBlogCore.Domain.Interfaces
     {
         Task<T> Add(T entity);
 
-        Task Remove(Guid entityId);
+        Task RemoveById(Guid entityId);
+
+        Task Remove(T entity);
 
         Task Update(T entity);
 

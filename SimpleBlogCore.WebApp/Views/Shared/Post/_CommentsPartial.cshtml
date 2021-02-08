@@ -5,7 +5,7 @@
     {
         foreach (var comment in comments)
         {
-            <li class="comment depth-@depth">
+            <li class="comment depth-@depth" data-id="@comment.Id">
 
                 <div class="comment__avatar">
                     <img class="avatar" src="~/@comment.User.ProfilePicturePath" alt="" width="50" height="50">
@@ -51,12 +51,15 @@
                 {
                     <div class="comment-controls">
 
-                        <a class="comment-action hidden">cancel</a>
-                        <a class="comment-action">reply</a>
-                        @if ((comment.User.Id == User.Identity.GetUserId() || User.IsInRole("Admin")) && !comment.IsDeleted)
+                        <a class="comment-action cancel" style="display: none;">cancel</a>
+                        @if (!comment.IsDeleted)
                         {
-                            <a class="comment-action">edit</a>
-                            <a class="comment-action">delete</a>
+                            <a class="comment-action reply">reply</a>
+                            @if ((comment.User.Id == User.Identity.GetUserId() || User.IsInRole("Admin")))
+                            {
+                                <a class="comment-action edit">edit</a>
+                                <a class="comment-action delete">delete</a>
+                            }
                         }
                     </div>
                 }
@@ -103,15 +106,15 @@ else
     <div class="comment-respond">
 
         <!-- START respond -->
-        <div id="respond">
+        <div>
 
-            <h3 class="h4">Leave your comment</h3>
+            <h3 class="h5">Leave your comment</h3>
 
-            <form name="contactForm" id="contactForm" method="post" action="" autocomplete="off">
+            <form autocomplete="off">
                 <fieldset>
 
                     <div class="message form-field">
-                        <textarea name="cMessage" id="cMessage" class="h-full-width" rows="4" cols="50"></textarea>
+                        <textarea class="h-full-width" rows="4" cols="50"></textarea>
                     </div>
 
                     <input name="submit" id="submit" class="btn btn--primary btn-wide" value="Send" type="submit">

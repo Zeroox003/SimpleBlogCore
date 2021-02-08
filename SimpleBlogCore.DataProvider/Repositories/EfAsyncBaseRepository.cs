@@ -36,9 +36,15 @@ namespace SimpleBlogCore.DataProvider.Repositories
             return await context.Set<T>().FirstOrDefaultAsync(x => x.Id == entityId);
         }
 
-        public async Task Remove(Guid entityId)
+        public async Task RemoveById(Guid entityId)
         {
             context.Set<T>().Remove(new T { Id = entityId });
+            await context.SaveChangesAsync();
+        }
+
+        public async Task Remove(T entity)
+        {
+            context.Set<T>().Remove(entity);
             await context.SaveChangesAsync();
         }
 

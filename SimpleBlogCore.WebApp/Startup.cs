@@ -45,6 +45,7 @@ namespace SimpleBlogCore.WebApp
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfAsyncBaseRepository<>));
             services.AddScoped(typeof(IPostAsyncRepository), typeof(PostAsyncRepository));
+            services.AddScoped(typeof(ICommentAsyncRepository), typeof(CommentAsyncRepository));
 
             ConfigurateIdentity(services);
         }
