@@ -19,4 +19,11 @@
   <ItemGroup>
     <ProjectReference Include="..\SimpleBlogCore.DataProvider\SimpleBlogCore.DataProvider.csproj" />
     <ProjectReference Include="..\SimpleBlogCore.Domain\SimpleBlogCore.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="wwwroot\css\images\" />
+    <Folder Include="wwwroot\js\DataTables\" />
   </ItemGroup></Project>

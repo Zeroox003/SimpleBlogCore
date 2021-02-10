@@ -13,6 +13,8 @@
 
     <!-- CSS
     ================================================== -->
+    <link rel="stylesheet" type="text/css" href="~/css/DataTables/datatables.min.css" />
+    <link rel="stylesheet" href="~/css/jquery-ui.min.css">
     <link rel="stylesheet" href="~/css/base.css">
     <link rel="stylesheet" href="~/css/main.css">
 
@@ -23,9 +25,6 @@
 
     <!-- favicons
     ================================================== -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 
 </head>
 
@@ -51,19 +50,21 @@
 
                 <ul class="s-header__nav">
                     <li is-active-route asp-controller="Home" asp-action="Index">
-                        <a asp-action="Index" asp-controller="Home">Home</a>
+                        <a asp-area="" asp-action="Index" asp-controller="Home">Home</a>
                     </li>
                     <li is-active-route asp-action="Contacts" asp-controller="Home">
-                        <a asp-action="Contacts" asp-controller="Home">Contacts</a>
+                        <a asp-area="" asp-action="Contacts" asp-controller="Home">Contacts</a>
                     </li>
                     <li is-active-route asp-action="Aboutme" asp-controller="Home">
-                        <a asp-action="Aboutme" asp-controller="Home">About me</a>
+                        <a asp-area="" asp-action="Aboutme" asp-controller="Home">About me</a>
                     </li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        if (User.IsInRole("admin"))
+                        if (User.IsInRole("Admin"))
                         {
-                            <li><a>Manage</a></li>
+                            <li is-active-route asp-area="Admin" asp-controller="Home" asp-action="Index">
+                                <a asp-area="Admin" asp-controller="Home" asp-action="Index">Manage</a>
+                            </li>
                         }
 
                         <li id="user-avatar" class="has-children right">
@@ -72,10 +73,10 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a asp-controller="Account" asp-action="UserProfile" asp-route-id="@User.Identity.GetUserId()">User profile</a>
+                                    <a asp-area="" asp-controller="Account" asp-action="UserProfile" asp-route-id="@User.Identity.GetUserId()">User profile</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="Account" asp-action="Logout">Logout</a>
+                                    <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                                 </li>
                             </ul>
                         </li>
@@ -83,10 +84,10 @@
                     else
                     {
                         <li is-active-route asp-controller="Account" asp-action="Register" class="right">
-                            <a asp-controller="Account" asp-action="Register">Sign Up</a>
+                            <a asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
                         </li>
                         <li is-active-route asp-controller="Account" asp-action="Login" class="right">
-                            <a asp-controller="Account" asp-action="Login">Log in</a>
+                            <a asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
                         </li>
                     }
                 </ul> <!-- end #nav -->

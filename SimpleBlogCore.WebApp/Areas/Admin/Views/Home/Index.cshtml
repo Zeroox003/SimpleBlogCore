@@ -1,0 +1,140 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manage";
+}
+
+<div class="row">
+    <div id="main" class="s-content__main large-12 column">
+
+        <h2>Manage</h2>
+
+        <div id="tabs">
+            <ul>
+                <li class="tabs" data-source="@Url.Action("GetAll", "Tag", new { Area = "Admin"})" data-table="tags-table">
+                    <a href="#tab-tags">Tags</a>
+                </li>
+            </ul>
+
+            <div id="tab-tags">
+
+                <a asp-action="Add"
+                   asp-controller="Tag"
+                   asp-area="Admin"
+                   class="btn btn--primary btn-action">
+                    Add
+                </a>
+
+                <table id="tags-table" class="display cell-border general-table" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/DataTables/datatables.min.js"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/js/moment.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $(".tabs").click(function () {
+                var tableId = "#" + $(this).data("table");
+                var source = $(this).data("source");
+                switch (tableId) {
+                    case "#tags-table":
+                        initiateTagsTable(tableId, source);
+                        break;
+                }
+            });
+
+            function initiateTagsTable(tableId, source) {
+                $(tableId).DataTable({
+                    ajax: source,
+                    destroy: true,
+                    searching: true,
+                    lengthChange: true,
+                    paging: true,
+                    responsive: true,
+                    columns: [
+                        {
+                            data: null,
+                            render: function (data, type, full, meta) {
+                                return meta.row + 1;
+                            },
+                            searchable: false,
+                        },
+                        {
+                            data: 'Name',
+                            name: 'Name',
+                            render: function (data) {
+                                return `<a href="@Url.Action("GetByTag", "Home", new { Area = "" })?tagName=${escape(data)}">
+                                            ${data}
+                                        </a>`;
+                            }
+                        },
+                        {
+                            data: 'Description',
+                            name: 'Description',
+                            render: function (data) {
+                                return data;
+                            }
+                        },
+                        {
+                            data: 'Created',
+                            name: 'Created',
+                            render: function (data) {
+                                return moment(data).format('DD/MM/YYYY HH:mm');
+                            }
+                        },
+                        {
+                            data: null,
+                            name: 'Actions',
+                            searchable: false,
+                            orderable: false,
+                            render: function (data, type, full) {
+                                return `<a href="@Url.Action("Edit", "Tag", new { Area = "Admin" })/${full.Id}" class="btn h-full-width btn-action edit">Edit</a>
+                                        <a class="btn h-full-width btn-action delete" data-id="${full.Id}">Delete</a>`
+                            }
+                        },
+                    ],
+                    drawCallback: function () {
+                        $(this).off("click");
+
+                        var tableApi = this.api();
+                        $(this).click(e => {
+                            var target = $(e.target);
+                            if (target.hasClass('delete')) {
+                                e.preventDefault();
+                                if (confirm("Do you really want to delete the tag?")) {
+                                    $.ajax({
+                                        url: "@Url.Action("Delete", "Tag", new { Area = "Admin"})",
+                                        method: "POST",
+                                        data: { tagId: target.data("id") },
+                                        success: function () {
+                                            tableApi.ajax.reload(null, false);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+
+            initiateTagsTable("#tags-table", "@Url.Action("GetAll", "Tag", new { Area = "Admin"})");
+
+            $("#tabs").tabs();
+        });
+    </script>
+}

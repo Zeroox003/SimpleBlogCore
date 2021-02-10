@@ -43,6 +43,8 @@
  *    ## post-list-nav
  *    ## comments
  *    ## user profile image
+ *  # manage panel
+ *    ## datatables
  *
  * =================================================================== */
 
@@ -113,7 +115,7 @@ a {
 }
 
 a:hover, a:focus, a:active {
-    color: #656986;
+    color: #84be5b;
 }
 
 a:hover, a:active {
@@ -2687,6 +2689,41 @@ li#user-avatar img {
     opacity: 1;
 }
 
+/* =================================================================== 
+ * # manage panel 
+ *
+ * ------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------- 
+ * ## datatables
+ * ------------------------------------------------------------------- */
+.dataTables_wrapper input,
+.dataTables_wrapper select {
+    display: initial;
+    height: initial;
+    margin-bottom: 1rem;
+}
+
+.dataTable th.ui-state-default {
+    font-weight: bold;
+}
+
+.ui-tabs-panel > .btn.btn-action,
+.dataTable .btn.btn-action,
+.dataTables_wrapper + .btn.btn-action {
+    height: initial;
+    text-transform: unset;
+    letter-spacing: unset;
+    line-height: unset;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.ui-tabs-panel > .btn.btn-action {
+    margin-top: 1rem;
+    padding: 0.2rem 2rem;
+    font-size: 1.4rem;
+}
 
 /* ------------------------------------------------------------------- 
  * responsive:

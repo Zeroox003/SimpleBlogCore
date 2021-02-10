@@ -31,7 +31,7 @@ namespace SimpleBlogCore.DataProvider.EntityConfigurations
                     e => e.HasOne<Post>()
                         .WithMany()
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.ClientCascade));
+                        .OnDelete(DeleteBehavior.Cascade));
 
             builder.Property(x => x.IsPublished)
                 .HasDefaultValue(false);

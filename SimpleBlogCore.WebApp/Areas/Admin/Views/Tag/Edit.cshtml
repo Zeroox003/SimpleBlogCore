@@ -1,0 +1,44 @@
+﻿@model TagViewModel
+
+@{
+    ViewData["Title"] = "Edit tag";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div id="main" class="s-content__main large-12 column">
+
+        <h2>Edit tag</h2>
+
+        <div>
+            <form asp-action="Edit" asp-antiforgery="true">
+                <div asp-validation-summary="ModelOnly" class="text-danger">
+                    Errors:
+                </div>
+
+                <div>
+                    <label asp-for="Name"></label>
+                    <span asp-validation-for="Name"></span>
+                    <input asp-for="Name" class="h-full-width" />
+                </div>
+                <div>
+                    <label asp-for="Description"></label>
+                    <span asp-validation-for="Description"></span>
+                    <input asp-for="Description" class="h-full-width" />
+                </div>
+                <div>
+                    <input class="btn--primary h-full-width" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <a asp-action="Index" asp-controller="Home" asp-area="Admin">Back to List</a>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

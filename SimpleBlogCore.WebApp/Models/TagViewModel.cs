@@ -1,5 +1,6 @@
 ﻿using SimpleBlogCore.Domain.Entities;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SimpleBlogCore.WebApp.Models
 {
@@ -9,9 +10,8 @@ namespace SimpleBlogCore.WebApp.Models
 
         public DateTime? Created { get; set; }
 
+        [Required]
         public string Name { get; set; }
-
-        public string UrlSlug { get; set; }
 
         public string Description { get; set; }
 
@@ -37,5 +37,11 @@ namespace SimpleBlogCore.WebApp.Models
                 Description = Description
             };
         }
+
+        public void Update(Tag tag)
+		{
+            tag.Name = Name;
+            tag.Description = Description;
+		}
     }
 }
