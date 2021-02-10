@@ -47,20 +47,5 @@ namespace SimpleBlogCore.WebApp.Models
                 Comments.Add(new CommentViewModel(comment));
             }
         }
-
-        public Post GetEntity()
-        {
-            bool isNew = Id == null;
-            return new Post {
-                Id = isNew ? Guid.NewGuid() : Id.Value,
-                Created = Created ?? DateTime.UtcNow,
-                Title = Title,
-                Content = Content,
-                IsPublished = IsPublished,
-                LastModified = isNew ? null : DateTime.UtcNow,
-                Tags = Tags.Select(t => t.GetEntity()).ToList(),
-                Comments = Comments.Select(c => c.GetEntity()).ToList()
-            };
-        }
     }
 }

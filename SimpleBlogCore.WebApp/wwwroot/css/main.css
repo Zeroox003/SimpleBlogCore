@@ -1,4 +1,4 @@
-/* =================================================================== 
+﻿/* =================================================================== 
  *  Keep It Simple Main Stylesheet
  *  Template Ver. 3.0.0
  *  12-14-2019
@@ -751,6 +751,40 @@ select {
     border-radius: 4px;
 }
 
+select[multiple] {
+    min-height: 15rem;
+}
+
+select[multiple] option {
+    border-radius: 1px;
+    position: relative;
+    margin-bottom: 1rem;
+    padding: 3px 7px;
+}
+
+select[multiple] option:hover {
+    background-color: #ccc;
+}
+
+select[multiple] option:checked {
+    background: #93B876 linear-gradient(0deg, #93B876 0%, #93B876 100%);
+}
+
+select[multiple] option:checked::before {
+    position: absolute;
+    left: -1.4rem;
+    content: "✓";
+    color: #93B876;    
+}
+
+select[multiple]:focus option:checked {
+    background: #84be5b linear-gradient(0deg, #84be5b 0%, #84be5b 100%);
+}
+
+.tox-tinymce {
+    margin-bottom: 5rem;
+}
+
 .ss-custom-select {
     position: relative;
     padding: 0;
@@ -911,7 +945,6 @@ select:-webkit-autofill:focus {
  *
  * ------------------------------------------------------------------- */
 .btn, 
-button, 
 input[type="submit"], 
 input[type="reset"], 
 input[type="button"] {
@@ -940,7 +973,6 @@ input[type="button"] {
 }
 
 .btn:hover, 
-button:hover, 
 input[type="submit"]:hover, 
 input[type="reset"]:hover, 
 input[type="button"]:hover, 

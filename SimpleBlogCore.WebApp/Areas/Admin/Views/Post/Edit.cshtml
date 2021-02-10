@@ -1,0 +1,81 @@
+﻿@model PostEditViewModel
+
+@{
+    ViewData["Title"] = "Edit post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div id="main" class="s-content__main large-12 column">
+
+        <h2>Edit post</h2>
+
+        <div>
+            <form asp-action="Edit" asp-antiforgery="true">
+                <div asp-validation-summary="ModelOnly" class="text-danger">
+                    Errors:
+                </div>
+
+                <div>
+                    <label asp-for="Title"></label>
+                    <span asp-validation-for="Title"></span>
+                    <input asp-for="Title" class="h-full-width" />
+                </div>
+                <div>
+                    <label asp-for="PreviewContent"></label>
+                    <span asp-validation-for="PreviewContent"></span>
+                    <textarea asp-for="PreviewContent" class="h-full-width"></textarea>
+                </div>
+                <div>
+                    <label asp-for="Content"></label>
+                    <span asp-validation-for="Content"></span>
+                    <textarea asp-for="Content" class="h-full-width"></textarea>
+                </div>
+                <div>
+                    <label asp-for="TagIds"></label>
+                    <span style="font-size: 12px; color: #bbb">use ctrl+click to select multiple</span>
+                    <span asp-validation-for="TagIds"></span>
+                    <select asp-for="TagIds" class="h-full-width" multiple>
+                        @foreach (var tag in Model.AvailableTags)
+                        {
+                            if (Model.TagIds.Contains(tag.Id))
+                            {
+                                <option value="@tag.Id" selected>@tag.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@tag.Id">@tag.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label asp-for="IsPublished" class="h-add-bottom">
+                        <input type="checkbox" asp-for="IsPublished" />
+                        <span class="label-text">Publish the post immediately?</span>
+                    </label>
+                </div>
+                <div>
+                    <input class="btn--primary h-full-width" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <a asp-action="Index" asp-controller="Home" asp-area="Admin">Back to List</a>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/tinymce.min.js"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            height: 700
+        });
+    </script>
+}

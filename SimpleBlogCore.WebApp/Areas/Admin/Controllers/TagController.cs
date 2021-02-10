@@ -47,6 +47,11 @@ namespace SimpleBlogCore.WebApp.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Add(TagViewModel tagViewModel)
 		{
+			if (!ModelState.IsValid)
+			{
+				return View(tagViewModel);
+			}
+
 			var tag = tagViewModel.GetEntity();
 			await tagRepository.Add(tag);
 
@@ -63,6 +68,11 @@ namespace SimpleBlogCore.WebApp.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(TagViewModel tagViewModel)
 		{
+			if (!ModelState.IsValid)
+			{
+				return View(tagViewModel);
+			}
+
 			var tag = await tagRepository.GetById(tagViewModel.Id.Value);
 			tagViewModel.Update(tag);
 			await tagRepository.Update(tag);

@@ -13,7 +13,7 @@ namespace SimpleBlogCore.DataProvider.EntityConfigurations
 
             builder.Property(p => p.Title).IsRequired().HasMaxLength(200);
             builder.Property(p => p.Content).IsRequired();
-            builder.Property(p => p.PreviewContent).IsRequired().HasMaxLength(600);
+            builder.Property(p => p.PreviewContent).IsRequired();
 
             builder.HasMany(p => p.Comments)
                 .WithOne(c => c.Post)

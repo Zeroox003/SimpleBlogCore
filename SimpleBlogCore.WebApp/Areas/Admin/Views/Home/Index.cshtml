@@ -1,4 +1,4 @@
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Manage";
 }
@@ -12,6 +12,9 @@
             <ul>
                 <li class="tabs" data-source="@Url.Action("GetAll", "Tag", new { Area = "Admin"})" data-table="tags-table">
                     <a href="#tab-tags">Tags</a>
+                </li>
+                <li class="tabs" data-source="@Url.Action("GetAll", "Post", new { Area = "Admin"})" data-table="posts-table">
+                    <a href="#tab-posts">Posts</a>
                 </li>
             </ul>
 
@@ -37,6 +40,30 @@
                 </table>
             </div>
 
+            <div id="tab-posts" style="padding: 1em 1em;">
+
+                <a asp-action="Add"
+                   asp-controller="Post"
+                   asp-area="Admin"
+                   class="btn btn--primary btn-action">
+                    Add
+                </a>
+
+                <table id="posts-table" class="display cell-border general-table" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Created</th>
+                            <th>Last modified</th>
+                            <th>Tags</th>
+                            <th>Is published</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>
@@ -55,8 +82,118 @@
                     case "#tags-table":
                         initiateTagsTable(tableId, source);
                         break;
+                    case "#posts-table":
+                        initiatePostsTable(tableId, source);
+                        break;
                 }
             });
+
+            function initiatePostsTable(tableId, source) {
+                $(tableId).DataTable({
+                    ajax: source,
+                    destroy: true,
+                    searching: true,
+                    lengthChange: true,
+                    paging: true,
+                    responsive: true,
+                    createdRow: function (row, data) {
+                        if (!data.IsPublished) {
+                            $(row).find('td').css({ 'background-color': '#ccc' })
+                        }
+                    },
+                    columns: [
+                        {
+                            data: null,
+                            render: function (data, type, full, meta) {
+                                return meta.row + 1;
+                            },
+                            searchable: false,
+                        },
+                        {
+                            data: 'Title',
+                            name: 'Title',
+                            render: function (data, type, full) {
+                                return `<a href="@Url.Action("Get", "Post", new { Area = "" })/${full.Id}">${data}</a>`;
+                            }
+                        },
+                        {
+                            data: 'Created',
+                            name: 'Created',
+                            render: function (data) {
+                                return moment(data).format('DD/MM/YYYY HH:mm');
+                            }
+                        },
+                        {
+                            data: 'LastModified',
+                            name: 'LastModified',
+                            render: function (data) {
+                                return data ? moment(data).format('DD/MM/YYYY HH:mm') : null;
+                            }
+                        },
+                        {
+                            data: 'Tags',
+                            name: 'Tags',
+                            render: function (tags) {
+                                var tagLinks = tags.map(t =>
+                                    `<a href="@Url.Action("GetByTag", "Home", new { Area = "" })?tagName=${escape(t.Name)}">
+                                        ${t.Name}
+                                    </a>`);
+                                return tagLinks.join(', ');
+                            }
+                        },
+                        {
+                            data: 'IsPublished',
+                            name: 'IsPublished',
+                            searchable: false,
+                            render: function (isPublished) {
+                                return isPublished ? "Yes" : "No";
+                            }
+                        },
+                        {
+                            data: null,
+                            name: 'Actions',
+                            searchable: false,
+                            orderable: false,
+                            render: function (data, type, full) {
+                                return `<a href="@Url.Action("Edit", "Post", new { Area = "Admin" })/${full.Id}" class="btn h-full-width btn-action edit">Edit</a>
+                                        <a class="btn h-full-width btn-action delete" data-id="${full.Id}">Delete</a>
+                                        <a class="btn h-full-width btn-action publish" data-id="${full.Id}">${full.IsPublished ? "Don't publish" : "Publish"}</a>`;
+
+                            }
+                        },
+                    ],
+                    drawCallback: function () {
+                        $(this).off("click");
+
+                        var tableApi = this.api();
+                        $(this).click(e => {
+                            var target = $(e.target);
+                            if (target.hasClass('delete')) {
+                                e.preventDefault();
+                                if (confirm("Do you really want to delete the post?")) {
+                                    $.ajax({
+                                        url: "@Url.Action("Delete", "Post", new { Area = "Admin"})",
+                                        method: "POST",
+                                        data: { postId: target.data("id") },
+                                        success: function () {
+                                            tableApi.ajax.reload(null, false);
+                                        }
+                                    });
+                                }
+                            } else if (target.hasClass('publish')) {
+                                $.ajax({
+                                    url: "@Url.Action("PublishToggle", "Post", new { Area = "Admin"})",
+                                    method: "POST",
+                                    data: { postId: target.data("id") },
+                                    success: function () {
+                                        tableApi.ajax.reload(null, false);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
 
             function initiateTagsTable(tableId, source) {
                 $(tableId).DataTable({
