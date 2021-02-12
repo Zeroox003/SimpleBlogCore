@@ -16,31 +16,32 @@ namespace SimpleBlogCore.DataProvider
             {
                 using (var context = serviceProvider.GetService<SimpleBlogDbContext>())
                 {
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
+                    if (context.Database.EnsureCreated())
+                    {
 
-                    var (admin, user) = GetUsers();
-                    context.Users.AddRange(admin, user);
+                        var (admin, user) = GetUsers();
+                        context.Users.AddRange(admin, user);
 
-                    var (adminRole, userRole) = GetRoles();
-                    context.Roles.AddRange(adminRole, userRole);
+                        var (adminRole, userRole) = GetRoles();
+                        context.Roles.AddRange(adminRole, userRole);
 
-                    var userRoleMap = new List<(User, IdentityRole<Guid>)> {
-                        (admin, adminRole),
-                        (user, userRole),
-                    };
-                    context.UserRoles.AddRange(GetUserRolesMap(userRoleMap));
+                        var userRoleMap = new List<(User, IdentityRole<Guid>)> {
+                            (admin, adminRole),
+                            (user, userRole),
+                        };
+                        context.UserRoles.AddRange(GetUserRolesMap(userRoleMap));
 
-                    var tags = GetTags();
-                    context.Tags.AddRange(tags);
+                        var tags = GetTags();
+                        context.Tags.AddRange(tags);
 
-                    var posts = GetPosts(tags);
-                    context.Posts.AddRange(posts);
+                        var posts = GetPosts(tags);
+                        context.Posts.AddRange(posts);
 
-                    var comments = GetComments(posts.First(), (admin, user));
-                    context.Comments.AddRange(comments);
+                        var comments = GetComments(posts.First(), (admin, user));
+                        context.Comments.AddRange(comments);
 
-                    context.SaveChanges();
+                        context.SaveChanges();
+                    }
                 }
             }
         }
