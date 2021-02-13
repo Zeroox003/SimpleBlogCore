@@ -37,7 +37,7 @@ namespace SimpleBlogCore.DataProvider
                         var posts = GetPosts(tags);
                         context.Posts.AddRange(posts);
 
-                        var comments = GetComments(posts.First(), (admin, user));
+                        var comments = GetComments(posts.Last(), (admin, user));
                         context.Comments.AddRange(comments);
 
                         context.SaveChanges();
