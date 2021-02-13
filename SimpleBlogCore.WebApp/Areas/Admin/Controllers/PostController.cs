@@ -35,8 +35,7 @@ namespace SimpleBlogCore.WebApp.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Delete(Guid postId)
 		{
-			var post = await postRepository.GetById(postId);
-			await postRepository.Remove(post);
+			await postRepository.RemoveById(postId);
 			return Ok();
 		}
 

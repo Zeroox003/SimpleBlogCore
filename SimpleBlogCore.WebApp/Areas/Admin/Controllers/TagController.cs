@@ -33,8 +33,7 @@ namespace SimpleBlogCore.WebApp.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Delete(Guid tagId)
 		{
-			var post = await tagRepository.GetById(tagId);
-			await tagRepository.Remove(post);
+			await tagRepository.RemoveById(tagId);
 			return Ok();
 		}
 
