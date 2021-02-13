@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
 
@@ -168,42 +168,40 @@
 
                         <ul class="s-footer__list s-footer-list--nav group">
                             <li class="current">
-                                <a asp-action="/">Home</a>
+                                <a asp-area="" asp-action="Index" asp-controller="Home">Home</a>
                             </li>
                             <li>
-                                <a asp-action="Contacts">Contacts</a>
+                                <a asp-area="" asp-action="Contacts" asp-controller="Home">Contacts</a>
                             </li>
                             <li>
-                                <a asp-action="Aboutme">About me</a>
+                                <a asp-area="" asp-action="Aboutme" asp-controller="Home">About me</a>
                             </li>
                             @if (User.Identity.IsAuthenticated)
                             {
-                                if (User.IsInRole("admin"))
+                                if (User.IsInRole("Admin"))
                                 {
-                                    <li><a>Manage</a></li>
+                                    <li>
+                                        <a asp-area="Admin" asp-controller="Home" asp-action="Index">Manage</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="Admin" asp-controller="User" asp-action="Index">List of users</a>
+                                    </li>
                                 }
 
-                                <li id="user-avatar" class="has-children right">
-                                    <a>
-                                        <img src="~/images/placeholder.png">
-                                    </a>
-                                    <ul>
-                                        <li>
-                                            <a asp-controller="Account" asp-action="UserProfile">User profile</a>
-                                        </li>
-                                        <li>
-                                            <a asp-controller="Account" asp-action="Logout">Logout</a>
-                                        </li>
-                                    </ul>
+                                <li>
+                                    <a asp-area="" asp-controller="Account" asp-action="UserProfile" asp-route-id="@User.Identity.GetUserId()">User profile</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                                 </li>
                             }
                             else
                             {
-                                <li class="right">
-                                    <a asp-controller="Account" asp-action="Register">Sign Up</a>
+                                <li>
+                                    <a asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
                                 </li>
-                                <li class="right">
-                                    <a asp-controller="Account" asp-action="Login">Log in</a>
+                                <li>
+                                    <a asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
                                 </li>
                             }
                         </ul>
