@@ -1,0 +1,103 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "List of users";
+}
+
+<div class="row">
+    <div id="main" class="s-content__main large-12 column">
+
+        <h2>List of users</h2>
+
+        <table id="users-table" class="display cell-border general-table" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/DataTables/datatables.min.js"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#users-table").DataTable({
+                ajax: "@Url.Action("GetAll", "User", new { Area = "Admin" })",
+                method: "POST",
+                destroy: true,
+                searching: true,
+                lengthChange: true,
+                paging: true,
+                responsive: true,
+                columns: [
+                    {
+                        data: null,
+                        render: function (data, type, full, meta) {
+                            return meta.row + 1;
+                        },
+                        searchable: false,
+                    },
+                    {
+                        data: 'Username',
+                        name: 'Username',
+                        render: function (data, type, full) {
+                            return `<a href="@Url.Action("UserProfile", "Account", new { Area = "" })/${full.Id}">${data}</a>`;
+                        }
+                    },
+                    {
+                        data: 'Email',
+                        name: 'Email',
+                        render: function (data) {
+                            return data;
+                        }
+                    },
+                    {
+                        data: 'Role',
+                        name: 'Role',
+                        render: function (data) {
+                            return data;
+                        }
+                    },
+                    {
+                        data: null,
+                        name: 'Actions',
+                        searchable: false,
+                        orderable: false,
+                        render: function (data, type, full) {
+                            return `<a class="btn h-full-width btn-action role" data-id="${full.Id}">
+                                        ${full.Role === "Admin" ? "Set 'User' role" : "Set 'Admin' role"}
+                                    </a>`;
+                        }
+                    },
+                ],
+                drawCallback: function () {
+                    $(this).off("click");
+
+                    var tableApi = this.api();
+                    $(this).click(e => {
+                        var target = $(e.target);
+                        if (target.hasClass('role')) {
+                            e.preventDefault();
+                            $.ajax({
+                                url: "@Url.Action("RoleToggle", "User", new { Area = "Admin"})",
+                                method: "POST",
+                                data: { userId: target.data("id") },
+                                success: function () {
+                                    tableApi.ajax.reload(null, false);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
