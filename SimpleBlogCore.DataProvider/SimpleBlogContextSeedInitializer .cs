@@ -49,7 +49,7 @@ namespace SimpleBlogCore.DataProvider
         private static (User Admin, User User) GetUsers()
         {
             var hasher = new PasswordHasher<User>();
-            var imagePlaceholder = Path.Combine("images", "placeholder.png");
+            var imagePlaceholder = "~/images/placeholder.png";
             return (
                 new User {
                     Id = Guid.NewGuid(),

@@ -15,7 +15,7 @@ namespace SimpleBlogCore.DataProvider.Extensions
         public static string GetProfilePicturePath(this IIdentity identity)
         {
             var profilePicturePath = (identity as ClaimsIdentity).FindFirst("ProfilePicturePath");
-            return profilePicturePath != null ? profilePicturePath.Value : String.Empty;
+            return profilePicturePath != null ? profilePicturePath.Value.Replace("//", "/") : String.Empty;
         }
     }
 }

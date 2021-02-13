@@ -207,7 +207,7 @@ namespace JustBlog.Controllers
             using (var fileStream = new FileStream(fullPath, FileMode.Create))
             {
                 await profileImage.CopyToAsync(fileStream);
-                user.ProfilePicturePath = relativePath;
+                user.ProfilePicturePath = $"~/{relativePath}";
             }
 
             var result = await userManager.UpdateAsync(user);

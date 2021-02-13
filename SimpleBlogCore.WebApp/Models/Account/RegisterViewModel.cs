@@ -37,7 +37,7 @@ namespace SimpleBlogCore.WebApp.Models.Account
                 Email = Email,
                 UserName = UserName,
                 RegistrationDate = DateTime.UtcNow,
-                ProfilePicturePath = Path.Combine("images", "placeholder.png"),
+                ProfilePicturePath = "~/images/placeholder.png",
                 EmailConfirmed = true,
                 LockoutEnabled = false
             };
