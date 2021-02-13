@@ -16,7 +16,11 @@ namespace SimpleBlogCore.DataProvider.Repositories
 
 		public async Task<IReadOnlyCollection<Comment>> GetAllForPost(Guid postId)
 		{
-			return await QueryAll.Where(c => c.PostId == postId).OrderBy(c => c.Created).ToListAsync();
+			return await QueryAll
+				.Where(c => c.PostId == postId)
+				.Include(c => c.User)
+				.OrderBy(c => c.Created)
+				.ToListAsync();
 		}
 	}
 }
