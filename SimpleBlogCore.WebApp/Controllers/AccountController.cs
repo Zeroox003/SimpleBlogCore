@@ -69,6 +69,53 @@ namespace JustBlog.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(new RegisterViewModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                ModelState.AddModelError("", "A user with this Email already exists");
+                return View(model);
+            }
+
+            user = await userManager.FindByNameAsync(model.UserName);
+            if (user != null)
+            {
+                ModelState.AddModelError("", "A user with this Username already exists");
+                return View(model);
+            }
+
+            var userModel = model.GetModel();
+            var resultUserCreating = await userManager.CreateAsync(userModel, model.Password);
+            var resultAddingToRole = await userManager.AddToRoleAsync(userModel, role: "User");
+            if (resultUserCreating.Succeeded && resultAddingToRole.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            ModelState.AddModelError("", "Something went wrong");
+            return View(model);
+        }
+
         public async Task<ActionResult> Logout()
         {
             await signInManager.SignOutAsync();
